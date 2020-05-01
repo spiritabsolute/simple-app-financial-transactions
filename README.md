@@ -1,0 +1,1 @@
+A simple test application for working with financial transactions.
