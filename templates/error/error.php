@@ -7,7 +7,7 @@ $this->extend("layout/default");
 ?>
 
 <?php $this->beginBlock("title"); ?>
-Psr framework - 500 (Server error)
+Financial transactions - 500 (Server error)
 <?php $this->endBlock(); ?>
 
 <?php $this->beginBlock("content"); ?>

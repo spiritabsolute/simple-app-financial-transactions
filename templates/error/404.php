@@ -7,7 +7,7 @@ $this->extend("layout/default");
 ?>
 
 <?php $this->beginBlock("title"); ?>
-Psr framework - 404 (Not found)
+Financial transactions - 404 (Not found)
 <?php $this->endBlock(); ?>
 
 <?php $this->beginBlock("content"); ?>

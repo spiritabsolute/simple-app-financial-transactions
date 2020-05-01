@@ -17,7 +17,7 @@
 <body>
 <header>
 	<div class="brand">
-		<h3>Psr</h3>
+		<h3>Exchanger</h3>
 	</div>
 	<nav class="nav-links">
 		<?= $this->renderBlock("navbar"); ?>

@@ -7,7 +7,7 @@ $this->extend("layout/default");
 ?>
 
 <?php $this->beginBlock("title"); ?>
-Psr framework - home
+Financial transactions - home
 <?php $this->endBlock(); ?>
 
 <?php $this->beginBlock("meta"); ?>

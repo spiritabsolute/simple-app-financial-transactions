@@ -8,7 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
 
-class Cabinet implements RequestHandlerInterface
+class Deposit implements RequestHandlerInterface
 {
 	private $templateRenderer;
 
@@ -30,9 +30,8 @@ class Cabinet implements RequestHandlerInterface
 	{
 		$username = $request->getAttribute(BasicAuth::ATTRIBUTE);
 
-		return new HtmlResponse($this->templateRenderer->render('app/cabinet', [
+		return new HtmlResponse($this->templateRenderer->render('app/deposit', [
 			'username' => $username,
-			'balance' => (int) 0
 		]));
 	}
 }

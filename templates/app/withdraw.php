@@ -9,7 +9,7 @@ $this->extend("layout/columns");
 ?>
 
 <?php $this->beginBlock("title"); ?>
-Financial transactions - cabinet
+Financial transactions - withdraw
 <?php $this->endBlock(); ?>
 
 <?php $this->beginBlock("navbar"); ?>
@@ -20,10 +20,16 @@ Financial transactions - cabinet
 <?php $this->beginBlock("main"); ?>
 <div class="content">
 	<div class="title">
-		<h3>Welcome <?=$this->encode($username);?>!</h3>
+		<h3>Withdraw funds</h3>
 	</div>
 	<div class="inner-content">
 		<p>Your current balance: <?=$this->encode($balance);?></p>
+		<form method="post" action="<?=$this->generatePath("withdraw")?>">
+			<p>
+				How much do you want to withdraw:
+				<input type="text" name="withdraw_sum">
+			</p>
+		</form>
 	</div>
 </div>
 <?php $this->endBlock(); ?>

@@ -9,7 +9,7 @@ $this->extend("layout/columns");
 ?>
 
 <?php $this->beginBlock("title"); ?>
-Financial transactions - cabinet
+Financial transactions - deposit
 <?php $this->endBlock(); ?>
 
 <?php $this->beginBlock("navbar"); ?>
@@ -20,10 +20,7 @@ Financial transactions - cabinet
 <?php $this->beginBlock("main"); ?>
 <div class="content">
 	<div class="title">
-		<h3>Welcome <?=$this->encode($username);?>!</h3>
-	</div>
-	<div class="inner-content">
-		<p>Your current balance: <?=$this->encode($balance);?></p>
+		<h3>Account replenishment</h3>
 	</div>
 </div>
 <?php $this->endBlock(); ?>
