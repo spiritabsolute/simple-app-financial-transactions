@@ -9,7 +9,7 @@ use Laminas\Diactoros\Response;
 use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
 
 return [
-	"debug" => false,
+	"debug" => true,
 	"dependencies" => [
 		"abstract_factories" => [
 			ReflectionBasedAbstractFactory::class

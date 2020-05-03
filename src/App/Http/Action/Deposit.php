@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Action;
 
+use App\Entity\User;
 use App\Http\Middleware\BasicAuth;
 use App\Service\AccountService;
 use Framework\Template\TemplateRenderer;
@@ -33,9 +34,11 @@ class Deposit implements RequestHandlerInterface
 	{
 		$username = $request->getAttribute(BasicAuth::ATTRIBUTE);
 
+		$user = new User($username);
+
 		return new HtmlResponse($this->templateRenderer->render('app/deposit', [
-			'username' => $username,
-			'balance' => $this->accountService->getAccountBalance()
+			'user' => $user,
+			'balance' => $this->accountService->getAccountBalance($user)
 		]));
 	}
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \Framework\Template\Php\PhpRenderer $this
- * @var string $username
+ * @var \App\Entity\User $user
  * @var int $balance
  */
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \Framework\Template\Php\PhpRenderer $this
- * @var string $username
+ * @var \App\Entity\User $user
  * @var int $balance
  */
 
@@ -20,7 +20,7 @@ Financial transactions - cabinet
 <?php $this->beginBlock("main"); ?>
 <div class="content">
 	<div class="title">
-		<h3>Welcome <?=$this->encode($username);?>!</h3>
+		<h3>Welcome <?=$this->encode($user->getUsername());?>!</h3>
 	</div>
 	<div class="inner-content">
 		<p>Your current balance: <?=$this->encode($balance);?></p>

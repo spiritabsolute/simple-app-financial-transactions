@@ -10,7 +10,7 @@ class MySQLAdapter
 		$this->connection = $connection;
 	}
 
-	public function runQuery($query, $paramType, array $paramValues): array
+	public function defineData($query, $paramType, array $paramValues): array
 	{
 		$sql = $this->connection->prepare($query);
 		$this->bindQueryParams($sql, $paramType, $paramValues);
@@ -32,7 +32,7 @@ class MySQLAdapter
 		return $result;
 	}
 
-	public function insert(string $query, $paramType, array $paramValues): int
+	public function manipulateData(string $query, $paramType, array $paramValues): int
 	{
 		$sql = $this->connection->prepare($query);
 		$this->bindQueryParams($sql, $paramType, $paramValues);
@@ -42,7 +42,7 @@ class MySQLAdapter
 		return $sql->insert_id;
 	}
 
-	private function bindQueryParams(string $sql, $paramType, array $paramValues): void
+	private function bindQueryParams($sql, $paramType, array $paramValues): void
 	{
 		$reference[] = &$paramType;
 		for ($i = 0; $i < count($paramValues); $i ++)

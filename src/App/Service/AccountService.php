@@ -1,6 +1,7 @@
 <?php
 namespace App\Service;
 
+use App\Entity\User;
 use App\Storage\MySQL\AccountStorage;
 
 class AccountService
@@ -12,17 +13,17 @@ class AccountService
 		$this->accountStorage = $accountStorage;
 	}
 
-	public function getAccountBalance(): int
+	public function getAccountBalance(User $user): int
 	{
 		return 0;
 	}
 
-	public function fillAccountBalance()
+	public function fillAccountBalance(User $user)
 	{
 
 	}
 
-	public function withdrawAccountBalance()
+	public function withdrawAccountBalance(User $user)
 	{
 
 	}

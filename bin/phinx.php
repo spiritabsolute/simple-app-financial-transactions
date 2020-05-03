@@ -10,18 +10,16 @@ return [
 	'environments' => [
 		'default_migrations_table' => 'migrations',
 		'default_database' => 'spirit',
-		'app' => [
+		'spirit' => [
 			'adapter' => 'mysql',
 			'host' => $config['host'],
 			'name' => $config['database'],
 			'user' => $config['username'],
 			'pass' => $config['password'],
 			'port' => $config['port'],
-			'connection' => $container->get('db'),
 		],
 	],
 	'paths' => [
-		'migrations' => 'data/mysql/migrations/',
-		'seeds' => 'data/mysql/seeds/'
+		'migrations' => 'migrations/'
 	]
 ];

@@ -8,7 +8,7 @@ COPY ./xdebug.ini $PHP_INI_DIR/conf.d/xdebug.ini
 ENV INTERFACE $INTERFACE
 
 RUN apt-get update
-RUN docker-php-ext-install mysqli
+RUN docker-php-ext-install mysqli pdo_mysql
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 RUN sed -i "1 a xdebug.remote_host="$INTERFACE $PHP_INI_DIR/conf.d/xdebug.ini
 

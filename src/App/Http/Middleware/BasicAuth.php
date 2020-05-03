@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Middleware;
 
+use App\Service\UserService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -8,11 +9,11 @@ class BasicAuth
 {
 	public const ATTRIBUTE = "username";
 
-	private $users;
+	private $userService;
 
-	public function __construct(array $users)
+	public function __construct(UserService $userService)
 	{
-		$this->users = $users;
+		$this->userService = $userService;
 	}
 
 	public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
@@ -22,12 +23,10 @@ class BasicAuth
 
 		if (!empty($username) && !empty($password))
 		{
-			foreach ($this->users as $name => $pass)
+			$userData = $this->userService->findByUsername($username);
+			if (password_verify($password, $userData['password_hash']))
 			{
-				if ($username == $name && $password == $pass)
-				{
-					return $next($request->withAttribute(self::ATTRIBUTE, $username), $response);
-				}
+				return $next($request->withAttribute(self::ATTRIBUTE, $userData['username']), $response);
 			}
 		}
 
