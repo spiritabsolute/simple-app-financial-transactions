@@ -13,7 +13,7 @@ return [
 		]
 	],
 	'dbConfig' => [
-		'host' => 'localhost',
+		'host' => 'mysql',
 		'username' => 'spirit',
 		'password' => 'spirit',
 		'database' => 'spirit',
