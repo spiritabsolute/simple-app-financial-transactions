@@ -1,7 +1,9 @@
 <?php
 namespace App\Service;
 
+use App\Entity\Deposit;
 use App\Entity\User;
+use App\Gateway\GatewayFactory;
 use App\Storage\MySQL\AccountStorage;
 
 class AccountService
@@ -15,12 +17,23 @@ class AccountService
 
 	public function getAccountBalance(User $user): int
 	{
-		return 0;
+		return $this->accountStorage->getBalanceByUsername($user->getUsername());
 	}
 
-	public function fillAccountBalance(User $user)
+	public function depositAccountBalance(User $user, Deposit $deposit)
 	{
+		$gatewayFactory = new GatewayFactory($deposit->getPaymentMethod());
+		$paymentGateway = $gatewayFactory->createGateway();
 
+		$paymentGateway->fillParameters([
+			'amount' => $deposit->getAmount()
+		]);
+		$paymentResult = $paymentGateway->sendRequest();
+
+		if ($paymentResult)
+		{
+			$this->accountStorage->addBalanceByUsername($user->getUsername(), $deposit->getAmount());
+		}
 	}
 
 	public function withdrawAccountBalance(User $user)

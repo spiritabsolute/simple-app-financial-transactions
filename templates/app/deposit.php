@@ -24,10 +24,13 @@ Financial transactions - deposit
 	</div>
 	<div class="inner-content">
 		<p>Your current balance: <?=$this->encode($balance);?></p>
-		<form method="post" action="<?=$this->generatePath("withdraw")?>">
+		<form method="post" action="<?=$this->generatePath("deposit")?>">
 			<p>
 				How much do you want to deposit:
-				<input type="text" name="deposit_sum">
+				<input type="text" name="deposit_amount">
+			</p>
+			<p>
+				<input type="submit">
 				<input type="hidden" name="payment_method" value="card">
 			</p>
 		</form>

@@ -36,6 +36,18 @@ class Deposit implements RequestHandlerInterface
 
 		$user = new User($username);
 
+		if ($request->getMethod() == 'POST')
+		{
+			$post = $request->getParsedBody();
+
+			$amount = (int) $post['deposit_amount'];
+			$paymentMethod = (string) $post['payment_method'];
+
+			$deposit = new \App\Entity\Deposit($amount, $paymentMethod);
+
+			$this->accountService->depositAccountBalance($user, $deposit);
+		}
+
 		return new HtmlResponse($this->templateRenderer->render('app/deposit', [
 			'user' => $user,
 			'balance' => $this->accountService->getAccountBalance($user)

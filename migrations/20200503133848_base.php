@@ -24,7 +24,8 @@ class Base extends AbstractMigration
 		$user->saveData();
 
 		$account->insert([
-			'username' => 'admin'
+			'username' => 'admin',
+			'balance' => 100,
 		]);
 		$account->saveData();
 	}

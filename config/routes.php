@@ -5,16 +5,16 @@ use App\Http\Action;
  * @var \Framework\Http\Application $app
  */
 
-$app->get("home", "/", Action\Home::class);
-$app->get("cabinet", "/cabinet", [
+$app->get('home', '/', Action\Home::class);
+$app->get('cabinet', '/cabinet', [
 	$container->get(App\Http\Middleware\BasicAuth::class),
 	Action\Cabinet::class
 ]);
-$app->get("deposit", "/deposit", [
+$app->any('deposit', '/deposit', [
 	$container->get(App\Http\Middleware\BasicAuth::class),
 	Action\Deposit::class
 ]);
-$app->get("withdraw", "/withdraw", [
+$app->any('withdraw', '/withdraw', [
 	$container->get(App\Http\Middleware\BasicAuth::class),
 	Action\Withdraw::class
 ]);
