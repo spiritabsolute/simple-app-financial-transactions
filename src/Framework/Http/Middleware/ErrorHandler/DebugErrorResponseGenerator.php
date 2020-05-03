@@ -1,5 +1,5 @@
 <?php
-namespace Infrastructure\Framework\Http\Middleware\ErrorHandler;
+namespace Framework\Http\Middleware\ErrorHandler;
 
 use Framework\Http\Middleware\ErrorHandler\ErrorResponseGenerator;
 use Framework\Template\TemplateRenderer;

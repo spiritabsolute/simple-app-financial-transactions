@@ -28,6 +28,7 @@ Financial transactions - withdraw
 			<p>
 				How much do you want to withdraw:
 				<input type="text" name="withdraw_sum">
+				<input type="hidden" name="payment_method" value="card">
 			</p>
 		</form>
 	</div>

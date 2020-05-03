@@ -2,6 +2,7 @@
 namespace App\Http\Action;
 
 use App\Http\Middleware\BasicAuth;
+use App\Service\AccountService;
 use Framework\Template\TemplateRenderer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -11,10 +12,12 @@ use Laminas\Diactoros\Response\HtmlResponse;
 class Cabinet implements RequestHandlerInterface
 {
 	private $templateRenderer;
+	private $accountService;
 
-	public function __construct(TemplateRenderer $templateRenderer)
+	public function __construct(TemplateRenderer $templateRenderer, AccountService $accountService)
 	{
 		$this->templateRenderer = $templateRenderer;
+		$this->accountService = $accountService;
 	}
 
 	/**
@@ -32,7 +35,7 @@ class Cabinet implements RequestHandlerInterface
 
 		return new HtmlResponse($this->templateRenderer->render('app/cabinet', [
 			'username' => $username,
-			'balance' => (int) 0
+			'balance' => $this->accountService->getAccountBalance()
 		]));
 	}
 }

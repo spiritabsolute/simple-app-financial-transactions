@@ -1,5 +1,5 @@
 <?php
-use Infrastructure\Framework\Http\Middleware\ErrorHandler\BaseErrorResponseGenerator;
+use Framework\Http\Middleware\ErrorHandler\BaseErrorResponseGenerator;
 use Framework\Http\Middleware\ErrorHandler\WhoopsErrorResponseGenerator;
 use Framework\Http\Middleware\ErrorHandler\ErrorHandler;
 use Framework\Http\Middleware\ErrorHandler\ErrorResponseGenerator;

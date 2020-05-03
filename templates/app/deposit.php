@@ -20,7 +20,17 @@ Financial transactions - deposit
 <?php $this->beginBlock("main"); ?>
 <div class="content">
 	<div class="title">
-		<h3>Account replenishment</h3>
+		<h3>Deposit funds</h3>
+	</div>
+	<div class="inner-content">
+		<p>Your current balance: <?=$this->encode($balance);?></p>
+		<form method="post" action="<?=$this->generatePath("withdraw")?>">
+			<p>
+				How much do you want to deposit:
+				<input type="text" name="deposit_sum">
+				<input type="hidden" name="payment_method" value="card">
+			</p>
+		</form>
 	</div>
 </div>
 <?php $this->endBlock(); ?>

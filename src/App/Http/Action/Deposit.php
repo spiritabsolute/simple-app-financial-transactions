@@ -2,6 +2,7 @@
 namespace App\Http\Action;
 
 use App\Http\Middleware\BasicAuth;
+use App\Service\AccountService;
 use Framework\Template\TemplateRenderer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -11,10 +12,12 @@ use Laminas\Diactoros\Response\HtmlResponse;
 class Deposit implements RequestHandlerInterface
 {
 	private $templateRenderer;
+	private $accountService;
 
-	public function __construct(TemplateRenderer $templateRenderer)
+	public function __construct(TemplateRenderer $templateRenderer, AccountService $accountService)
 	{
 		$this->templateRenderer = $templateRenderer;
+		$this->accountService = $accountService;
 	}
 
 	/**
@@ -32,6 +35,7 @@ class Deposit implements RequestHandlerInterface
 
 		return new HtmlResponse($this->templateRenderer->render('app/deposit', [
 			'username' => $username,
+			'balance' => $this->accountService->getAccountBalance()
 		]));
 	}
 }
