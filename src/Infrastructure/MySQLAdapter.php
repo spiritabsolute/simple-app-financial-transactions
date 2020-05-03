@@ -10,7 +10,12 @@ class MySQLAdapter
 		$this->connection = $connection;
 	}
 
-	public function defineData($query, $paramType, array $paramValues): array
+	public function query(string $query): void
+	{
+		$this->connection->query($query);
+	}
+
+	public function defineData(string $query, $paramType, array $paramValues): array
 	{
 		$sql = $this->connection->prepare($query);
 		$this->bindQueryParams($sql, $paramType, $paramValues);

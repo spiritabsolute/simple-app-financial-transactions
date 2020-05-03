@@ -27,6 +27,18 @@ class Withdraw implements RequestHandlerInterface
 
 		$user = new User($username);
 
+		if ($request->getMethod() == 'POST')
+		{
+			$post = $request->getParsedBody();
+
+			$amount = (int) $post['withdraw_amount'];
+			$paymentMethod = (string) $post['payment_method'];
+
+			$withdraw = new \App\Entity\Withdraw($amount, $paymentMethod);
+
+			$this->accountService->withdrawAccountBalance($user, $withdraw);
+		}
+
 		return new HtmlResponse($this->templateRenderer->render('app/withdraw', [
 			'user' => $user,
 			'balance' => $this->accountService->getAccountBalance($user)

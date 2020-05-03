@@ -3,6 +3,7 @@ namespace App\Service;
 
 use App\Entity\Deposit;
 use App\Entity\User;
+use App\Entity\Withdraw;
 use App\Gateway\GatewayFactory;
 use App\Storage\MySQL\AccountStorage;
 
@@ -24,7 +25,6 @@ class AccountService
 	{
 		$gatewayFactory = new GatewayFactory($deposit->getPaymentMethod());
 		$paymentGateway = $gatewayFactory->createGateway();
-
 		$paymentGateway->fillParameters([
 			'amount' => $deposit->getAmount()
 		]);
@@ -32,12 +32,40 @@ class AccountService
 
 		if ($paymentResult)
 		{
-			$this->accountStorage->addBalanceByUsername($user->getUsername(), $deposit->getAmount());
+			$this->accountStorage->increaseBalanceByUsername($user->getUsername(), $deposit->getAmount());
 		}
 	}
 
-	public function withdrawAccountBalance(User $user)
+	public function withdrawAccountBalance(User $user, Withdraw $withdraw)
 	{
+		$this->accountStorage->beginTransaction();
 
+		$this->accountStorage->lockTable();
+
+		$balance = $this->accountStorage->getBalanceByUsername($user->getUsername());
+		if ($withdraw->getAmount() > $balance)
+		{
+			throw new \Exception('Incorrect withdraw amount');
+		}
+
+		$gatewayFactory = new GatewayFactory($withdraw->getPaymentMethod());
+		$paymentGateway = $gatewayFactory->createGateway();
+		$paymentGateway->fillParameters([
+			'amount' => $withdraw->getAmount()
+		]);
+		$paymentResult = $paymentGateway->sendRequest();
+
+		if ($paymentResult)
+		{
+			$this->accountStorage->reduceBalanceByUsername($user->getUsername(), $withdraw->getAmount());
+
+			$this->accountStorage->commitTransaction();
+
+			$this->accountStorage->unlockTable();
+		}
+		else
+		{
+			$this->accountStorage->rollbackTransaction();
+		}
 	}
 }

@@ -27,7 +27,10 @@ Financial transactions - withdraw
 		<form method="post" action="<?=$this->generatePath("withdraw")?>">
 			<p>
 				How much do you want to withdraw:
-				<input type="text" name="withdraw_sum">
+				<input type="text" name="withdraw_amount">
+			</p>
+			<p>
+				<input type="submit">
 				<input type="hidden" name="payment_method" value="card">
 			</p>
 		</form>
