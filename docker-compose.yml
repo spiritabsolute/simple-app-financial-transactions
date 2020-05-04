@@ -1,69 +1,35 @@
-version: '2'
+version: '3.4'
 services:
   php:
     build:
-      context: ./docker/php
-      args:
-        - INTERFACE=${INTERFACE}
+      context: ./
     container_name: php
-    volumes_from:
-      - source
-    environment:
-      PHP_IDE_CONFIG: 'serverName=${SERVER_IDE}'
-    links:
+    depends_on:
       - mysql
-    networks:
-      - spirit
-    restart: always
+    volumes:
+      - 'app_code:/app'
   nginx:
     build: ./docker/nginx
     container_name: nginx
     depends_on:
-      - source
-    volumes_from:
-      - source
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/mysite.template
-    ports:
-      - '${INTERFACE}:80:80'
-      - '${INTERFACE}:443:443'
-    links:
       - php
-    networks:
-      - spirit
-    restart: always
+    volumes:
+      - 'app_code:/app'
+    ports:
+      - '80:80'
   mysql:
     build: ./docker/mysql
     container_name: mysql
-    volumes_from:
-      - source
+    volumes:
+      - 'app_code:/app'
     ports:
-      - '${INTERFACE}:3306:3306'
+      - '3306:3306'
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     command: mysqld --sql-mode=""
-    networks:
-      - spirit
-    restart: always
-  source:
-    image: alpine:latest
-    container_name: source
-    volumes:
-      - ./:/app
-      - ./logs/nginx:/var/log/nginx
-      - ./logs/php:/var/log/php
-      - ./logs/mysql:/var/log/mysql
-      - ./data/mysql:/var/lib/mysql
-      - /etc/localtime:/etc/localtime/:ro
-    networks:
-      - spirit
-networks:
-  spirit:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 10.100.0.0/24
+volumes:
+  app_code:
+    name: 'app_code_volume'
