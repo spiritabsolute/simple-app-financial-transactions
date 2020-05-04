@@ -11,6 +11,11 @@ class AccountService
 {
 	private $accountStorage;
 
+	private $errorCollection = [];
+
+	const ERROR_DEPOSIT = 'ERROR_DEPOSIT';
+	const ERROR_WITHDRAW = 'ERROR_WITHDRAW';
+
 	public function __construct(AccountStorage $accountStorage)
 	{
 		$this->accountStorage = $accountStorage;
@@ -21,7 +26,7 @@ class AccountService
 		return $this->accountStorage->getBalanceByUsername($user->getUsername());
 	}
 
-	public function depositAccountBalance(User $user, Deposit $deposit)
+	public function depositAccountBalance(User $user, Deposit $deposit): void
 	{
 		$gatewayFactory = new GatewayFactory($deposit->getPaymentMethod());
 		$paymentGateway = $gatewayFactory->createGateway();
@@ -36,7 +41,7 @@ class AccountService
 		}
 	}
 
-	public function withdrawAccountBalance(User $user, Withdraw $withdraw)
+	public function withdrawAccountBalance(User $user, Withdraw $withdraw): void
 	{
 		$this->accountStorage->beginTransaction();
 
@@ -45,7 +50,8 @@ class AccountService
 		$balance = $this->accountStorage->getBalanceByUsername($user->getUsername());
 		if ($withdraw->getAmount() > $balance)
 		{
-			throw new \Exception('Incorrect withdraw amount');
+			$this->addError(self::ERROR_WITHDRAW, 'Insufficient funds');
+			return;
 		}
 
 		$gatewayFactory = new GatewayFactory($withdraw->getPaymentMethod());
@@ -67,5 +73,15 @@ class AccountService
 		{
 			$this->accountStorage->rollbackTransaction();
 		}
+	}
+
+	public function getErrors(): array
+	{
+		return $this->errorCollection;
+	}
+
+	private function addError(string $code, string $message): void
+	{
+		$this->errorCollection[$code] = $message;
 	}
 }

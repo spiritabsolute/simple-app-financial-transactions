@@ -27,6 +27,8 @@ class Withdraw implements RequestHandlerInterface
 
 		$user = new User($username);
 
+		$errors = [];
+
 		if ($request->getMethod() == 'POST')
 		{
 			$post = $request->getParsedBody();
@@ -35,13 +37,18 @@ class Withdraw implements RequestHandlerInterface
 			$paymentMethod = (string) $post['payment_method'];
 
 			$withdraw = new \App\Entity\Withdraw($amount, $paymentMethod);
-
-			$this->accountService->withdrawAccountBalance($user, $withdraw);
+			$errors = $withdraw->getErrors();
+			if (!$errors)
+			{
+				$this->accountService->withdrawAccountBalance($user, $withdraw);
+				$errors = $this->accountService->getErrors();
+			}
 		}
 
 		return new HtmlResponse($this->templateRenderer->render('app/withdraw', [
 			'user' => $user,
-			'balance' => $this->accountService->getAccountBalance($user)
+			'balance' => $this->accountService->getAccountBalance($user),
+			'errors' => $errors
 		]));
 	}
 }

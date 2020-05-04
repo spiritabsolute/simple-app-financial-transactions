@@ -3,6 +3,7 @@
  * @var \Framework\Template\Php\PhpRenderer $this
  * @var \App\Entity\User $user
  * @var int $balance
+ * @var array $errors
  */
 
 $this->extend("layout/columns");
@@ -25,13 +26,27 @@ Financial transactions - withdraw
 	<div class="inner-content">
 		<p>Your current balance: <?=$this->encode($balance);?></p>
 		<form method="post" action="<?=$this->generatePath("withdraw")?>">
+			<?php if ($errors): ?>
+				<p>
+				<div class="alert alert-danger" role="alert">
+					<?php foreach ($errors as $error): ?>
+						<?=$this->encode($error).'<br>';?>
+					<?php endforeach; ?>
+				</div>
+				</p>
+			<?php endif; ?>
 			<p>
 				How much do you want to withdraw:
 				<input type="text" name="withdraw_amount">
 			</p>
 			<p>
+				Select a payment method:
+				<select name="payment_method">
+					<option value="card">Card</option>
+				</select>
+			</p>
+			<p>
 				<input type="submit">
-				<input type="hidden" name="payment_method" value="card">
 			</p>
 		</form>
 	</div>
