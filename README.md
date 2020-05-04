@@ -12,3 +12,9 @@ docker-compose up
 ```
 
 Once everything is finish downloading, you can see the application at: http://localhost/
+
+User demo data:
+```
+admin
+test
+```
